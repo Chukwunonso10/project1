@@ -30,7 +30,7 @@ export function CreatePostForm() {
             actionState(data);
         });
     })
-
+    
     useEffect(() => {
         if (state.success) {
             toast.success(state.message || "Post created successfully")

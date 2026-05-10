@@ -1,6 +1,6 @@
 generator client {
   provider = "prisma-client"
-  output   = "../generated/prisma"
+  output   = "../app/generated/prisma"
 }
 
 datasource db {
@@ -11,4 +11,12 @@ model Post {
   id    String  @id @default(cuid())
   title String?
   body  String?
+}
+
+model User {
+  id String @id @default(cuid())
+  userName String
+  email String
+  phoneNumber String?
+
 }

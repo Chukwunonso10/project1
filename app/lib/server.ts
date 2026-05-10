@@ -1,7 +1,7 @@
 "use server"
 
 import prisma from "./prisma";
-import { inputTypes, postSchema } from "./schema"
+import { inputTypes, postSchema, signInType } from "./schema"
 import { revalidatePath } from "next/cache";
 
 export type PrevData = {
@@ -89,3 +89,21 @@ export async function deletePost(id: string) {
 }
 
 
+export async function signInAction(prevData: PrevData, data: signInType) {
+  
+  try {
+    await prisma.user.create({
+      data: {
+        userName: data.userName,
+        phoneNumber: data.PhoneNumber || "07032531817",
+        email: data.email
+      }
+    })
+
+
+    return { success: true, error: false, message: "Account created successfully" }
+  } catch (error: any) {
+    console.log("database error", error)
+    return { success: false, error: true, message: error.message || "Failed to create account" }
+  }
+}

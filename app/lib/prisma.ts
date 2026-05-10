@@ -1,14 +1,15 @@
-
-import { PrismaClient } from '@/generated/prisma/client'
+import { PrismaClient } from '../../generated/prisma/client'
 import { PrismaPg } from '@prisma/adapter-pg'
+import pg from 'pg'
 
 const globalForPrisma = global as unknown as {
-    prisma: PrismaClient
+  prisma: PrismaClient
 }
 
-const adapter = new PrismaPg({
-  connectionString: process.env.DIRECT_URL!,
+const pool = new pg.Pool({
+  connectionString: process.env.DIRECT_URL || process.env.DATABASE_URL,
 })
+const adapter = new PrismaPg(pool)
 
 const prisma = globalForPrisma.prisma || new PrismaClient({
   adapter,
